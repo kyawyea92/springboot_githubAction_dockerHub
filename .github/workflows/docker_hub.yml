@@ -6,8 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: 
-      name: build
     steps:
     - uses: actions/checkout@v4.2.2
 
@@ -26,10 +24,10 @@ jobs:
       working-directory: GitHubDockerHub
 
     - name: Build Docker images
-      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:${{secrets.DOCKER_TAG_VERSION}}
+      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:${{ evn.DOCKER_TAG_VERSION }}
     
     - name: Push to DockerHub
       run: |
         docker login -u kyawyealwin -p ${{secrets.DOCKERHUB_SEC}}
-        docker push kyawyealwin/springboot_github_action:v1.0.0
+        docker push kyawyealwin/springboot_github_action:${{ env.DOCKER_TAG_VERSION}}
       
