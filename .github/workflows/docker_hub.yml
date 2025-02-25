@@ -1,0 +1,33 @@
+name: GitHub Action with DockerHub
+on:
+  push:
+    branches: ["main","dev"]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.2.2
+
+    - name: Setup JDK 21
+      uses: actions/setup-java@v4.7.0
+      with:
+        java-version: 21
+        distribution: "temurin"
+        cache: maven
+    - name: Build With Maven
+      run: mvn clean install -DskipTests=true
+      working-directory: GitHubDockerHub
+      
+    - name: Package with Maven
+      run: mvn package -DskipTests=true
+      working-directory: GitHubDockerHub
+
+    - name: Build Docker images
+      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:latest
+    
+    - name: Push to DockerHub
+      run: |
+        docker login -u kyawyealwin -p ${{secrets.DOCKERHUB_SEC}}
+        docker push kyawyealwin/springboot_github_action:latest
+      
