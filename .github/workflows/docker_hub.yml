@@ -6,8 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: build
     steps:
     - uses: actions/checkout@v4.2.2
 
@@ -26,7 +24,7 @@ jobs:
       working-directory: GitHubDockerHub
 
     - name: Build Docker images
-      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:latest .
+      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:latest
     
     - name: Push to DockerHub
       run: |
