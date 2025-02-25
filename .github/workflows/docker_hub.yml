@@ -2,12 +2,12 @@ name: GitHub Action with DockerHub
 on:
   push:
     branches: ["main","dev"]
-  pull_request:
-    branches: ["main"]
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: 
+      name: build
     steps:
     - uses: actions/checkout@v4.2.2
 
@@ -26,7 +26,7 @@ jobs:
       working-directory: GitHubDockerHub
 
     - name: Build Docker images
-      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:v1.0.0
+      run: docker build ./GitHubDockerHub/ -t kyawyealwin/springboot_github_action:${{secrets.DOCKER_TAG_VERSION}}
     
     - name: Push to DockerHub
       run: |
