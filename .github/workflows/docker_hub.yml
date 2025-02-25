@@ -18,7 +18,7 @@ jobs:
         distribution: "temurin"
         cache: maven
     - name: Build With Maven
-    - run: mvn clean install -DskipTests=true
+      run: mvn clean install -DskipTests=true
       working-directory: GitHubDockerHub
       
     - name: Package with Maven
